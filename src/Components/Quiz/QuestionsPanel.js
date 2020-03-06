@@ -6,7 +6,7 @@ export default class QuestionsPanel extends Component {
     super(props);
     this.props = props;
     this.state = {
-      query: "",
+      query: "The Great Wall",
       q1_value: 0,
       q2_value: 0,
       sum: 0,
@@ -19,9 +19,6 @@ export default class QuestionsPanel extends Component {
   }
 
   handleCheck = e => {
-    console.log(e.target.id);
-    console.log(e.target.value);
-    console.log(e.target.checked);
 
     let checked = e.target.checked;
     let v = parseInt(e.target.value, 10);
@@ -29,8 +26,9 @@ export default class QuestionsPanel extends Component {
       v = v * -1;
     }
 
-    let q2_sum = this.state.q2_value + v;
-    this.setState({ q2_value: q2_sum });
+    let new_q2_value = this.state.q2_value + v;
+    let sum = new_q2_value + this.state.q1_value;
+    this.setState({ q2_value: new_q2_value, sum });
 
     switch (e.target.id) {
       case "boxName":
@@ -45,6 +43,9 @@ export default class QuestionsPanel extends Component {
       default:
         console.log(e.target.id);
     }
+
+    console.log("q2_value", new_q2_value);
+    console.log("sum", sum);
   };
 
   submitQuestions = () => {
@@ -70,18 +71,32 @@ export default class QuestionsPanel extends Component {
   };
 
   handleOptionChange = changeEvent => {
-    console.log(changeEvent.target.value);
+    // console.log(changeEvent.target.value);
 
-    let val = 0;
+    let new_q1_value = 0;
     try {
-      val = parseInt(changeEvent.target.value, 10);
+      new_q1_value = parseInt(changeEvent.target.value, 10);
     } catch (err) {
       console.log(err);
     }
 
-    this.setState({
-      q1_value: val
-    });
+    let q2_value = this.state.q2_value;
+    if (new_q1_value < 100) {
+      q2_value = 0;
+
+      this.setState({
+        checkedImage: false,
+        checkedName: false,
+        checkedDescription: false
+      });
+    }
+
+    let sum = new_q1_value + q2_value;
+    this.setState({ q1_value: new_q1_value, sum, q2_value });
+
+    console.log("q1_value", new_q1_value);
+    console.log("q2_value", q2_value);
+    console.log("sum", sum);
   };
 
   handleFormSubmit = event => {

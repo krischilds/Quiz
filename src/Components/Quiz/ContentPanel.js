@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 function ContentPanel(props) {
   return (
@@ -22,7 +21,5 @@ function ContentPanel(props) {
     </div>
   );
 }
-
-ContentPanel.propTypes = {};
 
 export default ContentPanel;
